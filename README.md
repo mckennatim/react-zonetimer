@@ -1,8 +1,7 @@
 # @mckennatim/react-zonetimer
 
 <img src="img/zonetimer-temp.PNG" alt="component image" width="200"/>
-
-![zonetimer-temp](img/zonetimer-temp.PNG =100x)  
+<img src="img/zonetimer-temp.PNG" alt="component image" width="200"/>
 
 A custom package used by iot.sitebuilt.net to create a mobile freindly SVG react component that can create and modify a 24 hour schedule. The schedule that is input and output is in a minimalist format suitable for transmitting to and from an iot.sitebuilt.net device. In addition to the SVG, the component includes a range slider.
 
