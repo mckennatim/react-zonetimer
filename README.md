@@ -36,6 +36,20 @@ Any of the daily schedules runing on the `sbiot` device can be modified by autho
       retNewSched={setNewSched}
     />
 
+## operation
+The size of the handle and location of the buttons were chosen to optimize the touch usability of the component.  
+
+### capture the handle
+There is a small filled circle that is the handle for operating this control. You can tell when you have successfully touched or clicked on the handle because the background changes from white to yellow. Once you have captured the handle you can rotate it through the schedule path which is indicated by a heavy black line. Notice the readout at the center top of the control which lists the setting at a particular time.
+
+### add an event
+To add an event or interval to the schedule first adjust the range slider for the value you want in the new interval and rotate the handle til the time you want that interval to start. Touch `set` in the upper right corner to create a new interval that is about 20 minutes long. Capture the handle again and rotate it counter clockwise til you reach your desired stop time. Click `finish` in the upper left to complete the insertion of the new interval
+
+### delete an event
+Capture the handle and rotate it to a time within the interval you want to delete and hit `delete`
+
+
+
 ## props
 
 ### asched 
