@@ -1,7 +1,7 @@
 {
   "name": "@mckennatim/react-zonetimer",
-  "version": "0.0.3",
-  "description": "a zone timer remember npm publish --access=public",
+  "version": "0.0.4",
+  "description": "A react component that is an SVG control that allows a user to modify a 24 hour schedule for a timer or thermostat like device.  remember npm publish --access=public",
   "main": "lib/index.js",
   "scripts": {
     "dev": "node_modules/.bin/webpack -w --config webpack.config.js src/index.js",

@@ -21,9 +21,18 @@ Any of the daily schedules runing on the `sbiot` device can be modified by autho
     npm install @mckennatim/react-zonetimer
 
     import{ZoneTimer} from '@mckennatim/react-zonetimer'
+    
+in parent component
+    
+    const sched = [[0,0,58], [6,20,69], [8,30,64], [17,40,68], [23,0,58]] 
+    const sunrise = "06:18"
+    const sunset = "19:24"  
+    const setNewSched=(newsched)=>()=>{
+      console.log('newsched: ', newsched)
+    } 
 
     <ZoneTimer 
-      asched={tsched}
+      asched={sched}
       range={[55,75]}
       templines={[
         {v:72,c:'red'}, 
@@ -48,13 +57,14 @@ To add an event or interval to the schedule first adjust the range slider for th
 ### delete an event
 Capture the handle and rotate it to a time within the interval you want to delete and hit `delete`
 
-
+### save and return
+pressing `save` calls `props.retNewSched(newsched)` with the current modified schedule.
 
 ## props
 
 ### asched 
 
-`asched` is an 2 dimesional array typically in one of two formats, analog 
+`asched` is the inital schedule sent to the component. This is the format that `sbiot devices` uses to store the schedule for a sensor or relay on the device for the current day and to store other day's sensor/relay device schedules from a database on `iot.sitebult.net`. It is a 2 dimesional array typically in one of two formats, analog 
 
     [[0,0,58], [6,20,69], [8,30,64], [17,40,68], [23,0,58]]
 
@@ -78,15 +88,13 @@ A string in the format `15:20` provided by device through the `useDevSpecs` func
 
 ### retNewSched
 
-Upon completion of a schedule, pressing the `save` button on the SVG component returns the modified schedule to the parent component.
-
-
-
-
-
-
+`retNewSched` is a function prop that sends back the modified or new schedule for `ZoneTimer`. Upon completion of a schedule, pressing the `save` button on the SVG component returns the modified schedule to the parent component. The parent component would typically then send the modified schedule to the device or use the modified schedule to update the database for other day's schedules.
 
 ## refs
+http://apex.infogridpacific.com/SVG/svg-tutorial-lesson17-path-arcs.html
+
+https://github.com/mckennatim/mqtt-hooks
+
 https://github.com/tranbathanhtung/usePosition
 
 https://til.hashrocket.com/posts/hwybnwyfyz-get-a-ref-to-a-dom-element-with-react-hooks

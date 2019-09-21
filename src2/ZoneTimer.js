@@ -22,13 +22,13 @@ const ZoneTimer = (props)=>{
   const [sched,setSched] = useState(asched)
   const[isout, setIsOut]= useState(false)
   const [interval, setInterval]=useState([])
-  const[temp, setTemp] = useState(range[1])
+  const[temp, setTemp] = useState(range[0])
 
   useEffect(()=>{
     function detectInputType (e){
       tm.absorbEvent(e)
       setPointerType(e.pointerType)
-      // console.log('e.pointerType: ', e.pointerType)
+      console.log('e.pointerType: ', e.pointerType)
       window.removeEventListener('pointerdown', detectInputType);
     }
     window.addEventListener("pointerdown", detectInputType, {passive:false});
@@ -82,7 +82,7 @@ const ZoneTimer = (props)=>{
     // console.log('3*(value-25)', temp2rad(value))
   }
   const handleTempChangeComplete=()=>{
-    // console.log('temp change end')
+    console.log('temp change end')
   }
 
   const butStart=()=>{
@@ -171,13 +171,6 @@ const ZoneTimer = (props)=>{
     strokeWidth: 2,
     fill: hasCapture ? 'yellow' : 'white'
   }
-  styles.rngdiv={
-    width: tm.width,
-    float:'left',
-    background:'white',
-    borderStyle: 'solid', 
-    borderColor:'blue'
-  }
 
   const renderSVGsched=(schedarr)=>{// eslint-disable-line 
     const sa = schedarr.reduce((acc,s,i)=>{
@@ -255,7 +248,6 @@ const ZoneTimer = (props)=>{
         <text x="250" y={tm.height-20} fontSize="24" fill="green" stroke="red" strokeWidth="1" onClick={props.retNewSched(sched)}>save</text>
         {renderNightDay()}
         {renderTempLines()}
-        {schedSVG}
         <circle 
             style={styles.knob} 
             id="knob"  
@@ -266,7 +258,7 @@ const ZoneTimer = (props)=>{
             onTouchStart={handleStart}
             onMouseDown={handleStart}
           /> 
-        
+        {schedSVG}
       </svg>
     </div>
     )
@@ -275,7 +267,7 @@ const ZoneTimer = (props)=>{
   return (
     <div ref={ref}>
       {renderSVG()}
-      <div style={styles.rngdiv}>
+      <div >
         <div className='slider'>
           <Slider
             min={range[0]}
