@@ -2,7 +2,7 @@
 
 <img src="img/zonetimer-temperature.PNG" alt="component image" width="200"/>
 
-A custom package used by iot.sitebuilt.net to create a mobile freindly SVG react component that can create and modify a 24 hour schedule. The schedule that is input and output is in a minimalist format suitable for transmitting to and from an iot.sitebuilt.net device. In addition to the SVG, the component includes a range slider.
+A custom package used by iot.sitebuilt.net to create a mobile freindly SVG react component that can create and modify a 24 hour schedule. The schedule that is input and output is in a minimalist format suitable for transmitting to and from an iot.sitebuilt.net device. 
 
 ## iot.sitebuilt.net devices
 
@@ -34,6 +34,8 @@ in parent component
     <ZoneTimer 
       asched={sched}
       range={[55,75]}
+      dif={2} //optional: for when using analog component
+      difrange={12} //optional: for when using analog component
       templines={[
         {v:72,c:'red'}, 
         {v:68, c:'orange'},
@@ -46,13 +48,18 @@ in parent component
     />
 
 ## operation
-The size of the handle and location of the buttons were chosen to optimize the touch usability of the component.  
+The size of the handle and location of the buttons were chosen to optimize the touch usability of the component. The same component works for both binary and analog applications. 
 
 ### capture the handle
-There is a small filled circle that is the handle for operating this control. You can tell when you have successfully touched or clicked on the handle because the background changes from white to yellow. Once you have captured the handle you can rotate it through the schedule path which is indicated by a heavy black line. Notice the readout at the center top of the control which lists the setting at a particular time.
+There is a small filled circle that is the handle for operating this control. You can tell when you have successfully touched or clicked on the handle because the background changes from white to yellow. Once you have captured the handle you can rotate it through the schedule path which is indicated by a heavy black line. Notice the readout at the center top of the control which indicates the relay state or hilimit/lolimit at a particular time.
 
-### add an event
-To add an event or interval to the schedule first adjust the range slider for the value you want in the new interval and rotate the handle til the time you want that interval to start. Touch `set` in the upper right corner to create a new interval that is about 20 minutes long. Capture the handle again and rotate it counter clockwise til you reach your desired stop time. Click `finish` in the upper left to complete the insertion of the new interval
+### (set/finish) insert a new interval
+
+To add an event or interval to the schedule
+
+1. * for binary - adjust the `set value slider` for the value you want in the new interval
+   * for analog - adjust the `set value slider` for the center value you want in the new interval then adjust then adjust the `set difference slider` to set the hilimit and lolimit around that center value. 
+2. Touch `set` in the upper right corner to create a new interval that is about 20 minutes long. Capture the handle again and rotate it counter clockwise til you reach your desired stop time. Click `finish` in the upper left to complete the insertion of the new interval
 
 ### delete an event
 Capture the handle and rotate it to a time within the interval you want to delete and hit `delete`
@@ -63,10 +70,13 @@ pressing `save` calls `props.retNewSched(newsched)` with the current modified sc
 ## props
 
 ### asched 
+The format of the device schedule is used to determine whether a binary or an analog control is rendered. It is contained in the prop `asched` and is the inital schedule sent to the component. This is the format that `sbiot devices` uses to store the schedule for a sensor or relay on the device for the current day and to store other day's sensor/relay device schedules from a database on `iot.sitebult.net`. It is a 2 dimesional array typically in one of two formats 
 
-`asched` is the inital schedule sent to the component. This is the format that `sbiot devices` uses to store the schedule for a sensor or relay on the device for the current day and to store other day's sensor/relay device schedules from a database on `iot.sitebult.net`. It is a 2 dimesional array typically in one of two formats, analog 
+analog 
 
-    [[0,0,58], [6,20,69], [8,30,64], [17,40,68], [23,0,58]]
+    [[0,0,59,53],[7,45,79,71],[10,50,56,52],[17,45,66,64],[22,50,61,59]]
+
+where each subarray is of the form `[hr, min, hilimit, lolimit]` 
 
 or binary
 
@@ -77,6 +87,12 @@ where each subarray is of the form `[hr, min, val]` Hours are in 24 hour format.
 ### range 
 
 An array defining the maximum and minimum values of a devices schedule
+
+### dif (optional)
+The default difference between hilimit and lolimit for using as an anlog control
+
+### difrange (optional)
+The maximum value of the `set difference slider` that appears when an analog control is called for. The range of the slider is min=1, max=`difrange`
 
 ### templines
 
