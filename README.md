@@ -12,7 +12,7 @@ IOT devices typically contain sensors and relays. `esp8266` and `esp32` devices 
 
 The `sbiot` devices sets up whatever timers are needed to execute the days schedule for all of its schedules sensors and relays. If the device loses contact with the server it will continue to run that schedule or a default schedule until contact is reestablished.
 
-Schedules are typically of two types. On is binary, like a light timer or sprinkler timer, instructing when a devices relay should go on and when it should go off. The other is analog, where the device is given an instruction on what setting of a sensor triggers some action on the device. Typically the `sbiot` device monitors its environment, comparing what it senses to the current period's setting value. Examples would include thermostats, or humidity controls.
+Schedules are typically of two types. On is binary, like a light timer or sprinkler timer, instructing when a devices relay should go on and when it should go off. The other is analog, where the device is given an instruction on what setting of a sensor triggers some action on the device. Typically the `sbiot` device monitors its environment, comparing what it senses to the current period's `hilimit` and `lolimit` values triggering some action depending on how the reading compares to the limits. Examples would include thermostats, or humidity controls.
 
 Any of the daily schedules runing on the `sbiot` device can be modified by authorized users. The `ZoneTime` component eases the process of setting up a day's schedule for one scheduled sensor/relay for an `sbiot` device
 
@@ -24,7 +24,7 @@ Any of the daily schedules runing on the `sbiot` device can be modified by autho
     
 in parent component
     
-    const sched = [[0,0,58], [6,20,69], [8,30,64], [17,40,68], [23,0,58]] 
+    const sched = [[0,0,58,56], [6,20,69,67], [8,30,64,62], [17,40,68,66], [23,0,58,56]] 
     const sunrise = "06:18"
     const sunset = "19:24"  
     const setNewSched=(newsched)=>()=>{
