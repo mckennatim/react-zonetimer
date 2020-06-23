@@ -1,4 +1,5 @@
 import {ZoneTimer} from './ZoneTimer'
+import {themodule} from './themodule'
 
 
-export {ZoneTimer}
+export {ZoneTimer, themodule}

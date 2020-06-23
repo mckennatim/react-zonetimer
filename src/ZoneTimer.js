@@ -5,21 +5,32 @@ import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 import{themodule} from './themodule'
 
-
+console.log('doggggggy')
 
 const ZoneTimer = (props)=>{
-  const {sunrise, sunset, asched, range, difrange, dif} =props
+  const {sunrise, sunset, range, difrange, dif, now} =props 
+  const dur = props.dur ? props.dur : 20
+  let {asched} = props
+  if (!asched){
+    asched= range[0]==0 ? [[0,0,0]] : [[0,0,range[0], range[0]+2]]
+  }
+  console.log('now: ', now)
   const tm = themodule(props.range)
+  const hma =tm.hrmin2arr(now)
+  const xy = tm.time2xy(hma,tm.inr)
+  console.log('xy: ', xy)
   const isdiff =  asched[0].length>3 ? true : false
-
   let ref = useRef(null);
   let { left, top } = usePosition(ref);
   const[pointerType, setPointerType] = useState('touch')
   const [sidx, setSidx] =useState(0)
   const[hasCapture, setHasCapture]=useState(false)
-  const[knobx, setKnobx ] = useState(tm.centx)
-  const[knoby, setKnoby ] = useState(tm.centy + tm.v2r(asched[0][2]))
-  const[hrmin, setHrmin] = useState('6:0')
+  // const[knobx, setKnobx ] = useState(tm.centx)
+  // const[knoby, setKnoby ] = useState(tm.centy + tm.v2r(asched[0][2]))
+  const[knobx, setKnobx ] = useState(xy[0])
+  const[knoby, setKnoby ] = useState(xy[1])
+  // const[hrmin, setHrmin] = useState('6:0')
+  const[hrmin, setHrmin] = useState(now)
   const [sched,setSched] = useState(asched)
   const[isout, setIsOut]= useState(false)
   const [interval, setInterval]=useState([])
@@ -101,7 +112,8 @@ const ZoneTimer = (props)=>{
   }
 
   const butStart=()=>{
-    const intvl=tm.createInterval(hrmin, 20, sched, sidx, temp, isdiff, diff)
+    const intvl=tm.createInterval(hrmin, dur, sched, sidx, temp, isdiff, diff)
+    console.log('intvl: ', intvl)
     setInterval(intvl)
     const nsched =tm.insertInterval(intvl, sched)
     setSched(nsched)
@@ -189,7 +201,7 @@ const ZoneTimer = (props)=>{
   }
 
   styles.knob={
-    r:hasCapture ? 14 : 10,
+    r:hasCapture ? 16 : 14,
     fill:hasCapture ? 'pink' : 'yellow',
     stroke:"red",
     strokeWidth:3
@@ -328,7 +340,7 @@ const ZoneTimer = (props)=>{
   }
 
   return (
-    <div ref={ref}>
+    <div ref={ref} styles={styles.wrapper} >
       {renderSVG()}
       <div style={styles.rngdiv}>
         set value

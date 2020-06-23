@@ -65,17 +65,27 @@ const themodule =(range)=>{
   const hrXmin = (schedidx)=>{
     return schedidx[0]*60 + schedidx[1]*1
   }
+  const addMin = (hrmin, dur)=>{
+    const hma= hrmin2arr(hrmin)
+    const min1 = hma[0]*60+hma[1]
+    const min2 = (min1+dur)/60
+    const min = Math.floor(min2%1*60)
+    const hr = Math.floor(min2)
+    return [hr,min]    
+  }
   return {
     centx,centy,inr,outr,pi,width,height,
     v2r: (v)=> (v-b)/m,
     xy2time: xy2time,
     time2xy: time2xy,
     hma2time: hma2time,
+    hrmin2arr:hrmin2arr,
     hrXmin: hrXmin,
     calcAng: calcAng,
     rad2x: rad2x,
     rad2y: rad2y,
     largeArcFlag: largeArcFlag,
+    addMin: addMin,
     hrmin2time: (hrmin)=>{
       const hma = hrmin2arr(hrmin)
       return hma2time(hma)
@@ -86,19 +96,30 @@ const themodule =(range)=>{
       const y = rad2y(r,ang)
       return{x,y}
     },
+    getNow: (tzadj)=>{
+      const d = new Date().toUTCString().split(':')
+      const z = tzadj.split(':')
+      const rh = d[0].slice(-2)*1+z[0]*1
+      const h = rh<0 ? rh+24 : rh
+      return `${h}:${d[1]*1+z[1]*(z[0]*1>0 ? 1 : -1)}` 
+    },
     createInterval: (hrmin, dur, sched, idx, temp, isdiff, diff)=>{
       const hma= hrmin2arr(hrmin)
-      const min1 = hma[0]*60+hma[1]
-      const min2 = (min1+dur)/60
-      const min = Math.floor(min2%1*60)
-      const hr = Math.floor(min2)
+      const hma2 = addMin(hrmin,dur)
+      // const min1 = hma[0]*60+hma[1]
+      // const min2 = (min1+dur)/60
+      // const min = Math.floor(min2%1*60)
+      // const hr = Math.floor(min2)
       if(!isdiff){
         hma.push(temp)
-        return[hma, [hr,min,sched[idx][2]]]
+        hma2.push(sched[idx][2])
+        return[hma, hma2]
       }else{
         hma.push(temp+diff/2)
         hma.push(temp-diff/2)
-        return[hma, [hr,min,sched[idx][2],sched[idx][3]]]
+        hma2.push(sched[idx][2])
+        hma2.push(sched[idx][3])
+        return[hma, hma2]
       }
     },
     insertInterval:(intvl, sched)=>{
