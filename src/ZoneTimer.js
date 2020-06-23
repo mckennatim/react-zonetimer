@@ -8,8 +8,9 @@ import{themodule} from './themodule'
 console.log('doggggggy')
 
 const ZoneTimer = (props)=>{
-  const {sunrise, sunset, range, difrange, dif, now} =props 
+  const {sunrise, sunset, range, difrange, dif} =props 
   const dur = props.dur ? props.dur : 20
+  const now = props.now ? props.now : "7:30"
   let {asched} = props
   if (!asched){
     asched= range[0]==0 ? [[0,0,0]] : [[0,0,range[0], range[0]+2]]
