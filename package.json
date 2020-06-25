@@ -1,6 +1,6 @@
 {
   "name": "@mckennatim/react-zonetimer",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "A react component that is an SVG control that allows a user to modify a 24 hour schedule for a timer or thermostat like device.  remember npm publish --access=public",
   "main": "lib/index.js",
   "scripts": {
